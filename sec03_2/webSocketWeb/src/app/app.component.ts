@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'webSocketWeb';
   conectado: boolean = false;
 
-  webSocketEndPoint: string = 'http://localhost:8181/ws';
+  webSocketEndPoint: string = 'http://localhost:8180/ws';
   destino: string = "/destino/mensaje";
   stompClient: any;
   mensaje: any = {};

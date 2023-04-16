@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 
 export class WebSocketAPI {
 
-    webSocketEndPoint: string = 'http://localhost:8181/ws';
+    webSocketEndPoint: string = 'http://localhost:8180/ws';
     topic: string = "/topic/greetings";
     stompClient: any;
     appComponent: any;

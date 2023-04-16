@@ -64,20 +64,35 @@ public class Count {
     }
 
     public static void main(String[] args) {
-        int[] data = {12, 23, 32, 40, 50, 60, 7, 8, 91, 100};
+        int[] data = { 12, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7,
+                8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100, 23, 32, 40, 50, 60, 7, 8, 91, 100 };
 
         long startTime = System.nanoTime();
         int count = count(data);
         long endTime = System.nanoTime();
 
         System.out.println("Número de elementos pares (sin programación paralela): " + count);
-        System.out.println("Tiempo de ejecución (sin programación paralela): " + (endTime - startTime) + " nanosegundos");
+        System.out
+                .println("Tiempo de ejecución (sin programación paralela): " + (endTime - startTime) + " nanosegundos");
 
         startTime = System.nanoTime();
         count = parallelCount(data);
         endTime = System.nanoTime();
 
         System.out.println("Número de elementos pares (con programación paralela): " + count);
-        System.out.println("Tiempo de ejecución (con programación paralela): " + (endTime - startTime) + " nanosegundos");
+        System.out
+                .println("Tiempo de ejecución (con programación paralela): " + (endTime - startTime) + " nanosegundos");
     }
 }
