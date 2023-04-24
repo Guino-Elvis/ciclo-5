@@ -1,0 +1,88 @@
+<div class="card" *ngIf="usuarioSelected">
+  <div class="card-header">Informacion del usuario</div>
+  <div class="card-body">
+    <form (ngSubmit)="guardar(usuarioForm.value)" #usuarioForm="ngForm">
+      <div class="d-grid gap-2 d-md-block">
+        <button
+          [disabled]="usuarioForm.invalid"
+          class="btn btn-success"
+          *ngIf="usuarioSelected.id < 1"
+          type="submit"
+        >
+          Guardar
+        </button>
+        <button
+          [disabled]="usuarioForm.invalid"
+          class="btn btn-success"
+          *ngIf="usuarioSelected.id > 1"
+          type="button"
+          (click)="editar(usuarioForm.value)"
+        >
+          Editar
+        </button>
+        <button
+          class="btn btn-danger"
+          *ngIf="usuarioSelected.id > 1"
+          (click)="eliminar()"
+        >
+          Eliminar
+        </button>
+      </div>
+      <div class="row g-2">
+        <div class="col-md-12">
+          <label for="id">Id: {{ usuarioSelected?.id }} </label>
+          <input
+            *ngIf="usuarioSelected?.id"
+            type="hidden"
+            name="id"
+            ngModel="{{ usuarioSelected?.id }}"
+          />
+        </div>
+        <div class="col-md-12">
+          <label for="nombreu">Nombre:</label>
+          <input
+            name="nombre"
+            ngModel="{{ usuarioSelected?.nombre }}"
+            type="text"
+            id="nombreu"
+            required
+          />
+        </div>
+        <div class="col-md-12">
+          <label for="rol">Rol</label>
+          <select
+            name="id_rol"
+            id="rol"
+            ngModel="{{ usuarioSelected?.rol.id }}"
+            required
+          >
+            <option value="-1">Seleccione un rol ...</option>
+            <option *ngFor="let rol of roles" value="{{ rol.id }}">
+              {{ rol.nombre }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-12">
+          <label for="activo">Activo</label>
+          <input
+            ngModel="{{ usuarioSelected?.activo }}"
+            checked="{{ usuarioSelected?.activo == 'S' ? 'checked' : '' }}}"
+            type="radio"
+            name="activo"
+            value="S"
+            required
+          />
+          Si -
+          <input
+            ngModel="{{ usuarioSelected?.activo }}"
+            checked="{{ usuarioSelected?.activo == 'N' ? 'checked' : '' }}}"
+            type="radio"
+            name="activo"
+            value="N"
+          />
+          No
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

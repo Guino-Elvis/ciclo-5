@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="card-header">Lista de usuarios</div>
+  <div class="card-body">
+    <div class="d-grid d-md-block">
+      <button class="btn btn-primary" (click)="crear()">Crear</button>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover" *ngIf="usuarios">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Rol</th>
+            <th>Activo</th>
+          </tr>
+        </thead>
+        <tbody id="lusuarios">
+          <tr
+            *ngFor="let usuario of usuarios"
+            [class.bg-secondary]="usuario === usuarioSelected"
+            (click)="seleccionar(usuario)"
+          >
+            <td>
+              {{ usuario.nombre }}
+            </td>
+            <td>{{ usuario.rol.nombre }}</td>
+            <td>{{ usuario.activo }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-formulario [usuarioSelected]="usuarioSelected"></app-formulario>
