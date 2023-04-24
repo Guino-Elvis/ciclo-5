@@ -1,0 +1,118 @@
+<div class="CRUD">
+<h2 class="text-center text-2xl">Nueva Categoria</h2>
+<div class="w-full max-w-xs m-auto">
+  <form #productoForm="ngForm" (ngSubmit)="submitForm(productoForm)"  class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <input type="text" name="id" [(ngModel)]="productoService.selectProducto.id">
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2">
+        Nombre
+      </label>
+      <input [(ngModel)]="productoService.selectProducto.nombre" name="Nombre" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Nombre" type="text" placeholder="Nombre">
+    </div>
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2">
+        Descripccion
+      </label>
+      <input [(ngModel)]="productoService.selectProducto.descripccion" name="Descripccion" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Descripccion" type="text" placeholder="DescripccionD">
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2">
+        Detalle
+      </label>
+      <input [(ngModel)]="productoService.selectProducto.detalles" name="Detalles" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Detalles" type="text" placeholder="Detalles">
+    </div>
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2">
+        Talla
+      </label>
+      <input [(ngModel)]="productoService.selectProducto.talla" name="Talla" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Talla" type="text" placeholder="Talla">
+    </div>
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2">
+       color
+      </label>
+      <input [(ngModel)]="productoService.selectProducto.color" name="Color" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Color" type="text" placeholder="Color">
+    </div>
+    <!-- <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2">
+       status
+      </label>
+      <input [(ngModel)]="productoService.selectProducto.status" name="status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="status" type="text" placeholder="status">
+    </div> -->
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2">
+       Precio
+      </label>
+      <input [(ngModel)]="productoService.selectProducto.precio" name="Precio" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Precio" type="text" placeholder="Precio">
+    </div>
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2">
+       Oferta
+      </label>
+      <input [(ngModel)]="productoService.selectProducto.oferta" name="Oferta" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Oferta" type="text" placeholder="Oferta">
+    </div>
+
+    <!-- <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2">
+        Foto
+      </label>
+      <input #fileInput class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Foto" type="file" >
+    </div>
+    <div>
+      <img [src]="previewUrl" *ngIf="previewUrl" />
+    </div> -->
+
+
+
+    <!-- <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2">
+        Categoria
+      </label>
+
+      <input [(ngModel)]="productoService.selectProducto.Categorias_id" name="Categorias_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Categorias_id" type="text" placeholder="Categorias_id">
+    </div> -->
+    <!-- <div class="foto">
+      @if (isset($producto->Foto))
+        <label  for="Foto" class="inline-block mb-2 text-gray-500">{{'Foto'}} </label>
+        <img class="zoom" src="{{asset('storage').'/'. selectProducto.Foto}}" style="border-radius:8px; " width="100px" alt="">
+        <br>
+      @else
+        <img class="zoom" src="" style="border-radius:8px; " width="100px" alt="">
+        <br>
+      @endif
+      <input type="file" name="Foto" id="Foto" value="" class="text-black" onchange="mostrarImagen(this)">
+    </div>
+
+    <script>
+    function mostrarImagen(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          // Obtenemos la etiqueta img que corresponde al input de tipo "file"
+          var img = input.parentNode.getElementsByTagName('img')[0];
+          img.src = e.target.result;
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    </script> -->
+
+
+
+    <div class="flex items-center justify-between">
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Guardar
+      </button>
+      <a routerLink="/" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+        Regresar
+      </a>
+    </div>
+  </form>
+  <p class="text-center text-gray-500 text-xs">
+    &copy;2020 Acme Corp. All rights reserved.
+  </p>
+</div>
+</div>
