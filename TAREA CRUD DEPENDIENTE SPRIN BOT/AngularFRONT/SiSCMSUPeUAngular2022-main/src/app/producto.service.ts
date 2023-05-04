@@ -6,7 +6,7 @@ import { Producto } from './producto';
   providedIn: 'root'
 })
 export class ProductoService {
-   url='http://127.0.0.1:8080/producto';
+   url='http://127.0.0.1:8181/producto';
    selectProducto:Producto=new Producto();
 
   reqHeader=new HttpHeaders({

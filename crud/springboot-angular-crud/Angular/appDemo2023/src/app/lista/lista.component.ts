@@ -10,6 +10,9 @@ import { MensajeService } from '../servicio/mensaje.service';
   styleUrls: ['./lista.component.css'],
 })
 export class ListaComponent implements OnInit {
+  paginaActual = 1;
+  elementosPorPagina = 10;
+
   usuarios!: Usuario[];
   usuarioSelected: Usuario | undefined;
 
@@ -28,6 +31,7 @@ export class ListaComponent implements OnInit {
     });
 }
 
+
   getUsuarios(nombre: string): void {
     this.usuarioService.buscar(nombre).subscribe(
       (res) => {
@@ -41,6 +45,7 @@ export class ListaComponent implements OnInit {
       }
     );
   }
+
 
   crear(): void {
     this.mensajeService.agregarMensaje({texto: '', tipo: 0});

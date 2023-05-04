@@ -21,6 +21,8 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) {}
 
+
+
   enviarBusqueda(data: string) {
     this.buscarObserver.next(data);
   }
