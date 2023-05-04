@@ -13,14 +13,14 @@ public class VentaApplication {
     public static void main(String[] args) {
         SpringApplication.run(VentaApplication.class, args);
     }
+
     @Bean
     public OpenAPI custoOpenAPI() {
         return new OpenAPI().info(new Info()
-                .title("OPEN API MICROSERVICIOS CATALOGO")
+                .title("OPEN API MICROSERVICIOS VENTA")
                 .version("0.0.1")
-                .description("servicio web catalogo")
+                .description("servicio web venta")
                 .termsOfService("http://swagger.io/terms")
-                .license(new License().name("Apache 2.0").url("http://springdoc.org"))
-        );
+                .license(new License().name("Apache 2.0").url("http://springdoc.org")));
     }
 }
