@@ -7,8 +7,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/Guino-Elvis/ciclo-5/tree/main/Examen%20microservidores/back.git
-          search-paths: config-data
+          uri: https://github.com/Guino-Elvis/Tarea_Microservidor_2023_gino.git
+          search-paths: Examen microservidores/back/config-data
           username: Guino-Elvis
           password: gino123456123
           default-label: main
