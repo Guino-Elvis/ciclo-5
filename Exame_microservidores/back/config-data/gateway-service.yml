@@ -7,6 +7,17 @@ eureka:
 spring:
   cloud:
     gateway:
+      globalcors:
+          corsConfigurations:
+            '[/**]':
+              allowedOrigins:
+              - "http://localhost:3000"
+              allowedHeaders: "*"
+              allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
       discovery:
         locator:
           enabled: true
@@ -27,7 +38,3 @@ spring:
           uri: lb://inscripccion-service
           predicates:
             - Path=/inscripccion/**
-        
-
-
-
