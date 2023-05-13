@@ -112,6 +112,7 @@
 }
 
 /* Estilos generales del modal*/
+
 .modal {
   background: rgb(255, 255, 255);
   border-radius: 4px;
@@ -124,6 +125,7 @@
   padding: 20px;
   position: absolute;
   width: 600px;
+
 }
 
 .form-container {
@@ -133,6 +135,7 @@
   background-color: #f5f5f5;
   border: 1px solid #ccc;
   border-radius: 5px;
+
 }
 
 .editar-title {
@@ -143,9 +146,13 @@
 
 .form-group {
   margin-bottom: 1.5rem;
+  margin-top: 5px;
+  
 }
 
 .label-name {
+  margin-top: 5px;
+  padding: 10px;
   font-weight: bold;
   font-size: 1.2rem;
   color: #333;
@@ -161,7 +168,7 @@
 }
 
 .actualizar-btn {
-  background-color: #23a947;
+  background-color: #20a5df;
   padding: 0.5rem;
   font-size: 1.2rem;
   color: #fff;
