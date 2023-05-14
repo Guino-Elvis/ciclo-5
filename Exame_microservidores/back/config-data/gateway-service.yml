@@ -37,4 +37,5 @@ spring:
         - id: inscripccion-service
           uri: lb://inscripccion-service
           predicates:
-            - Path=/inscripccion/**
+            - Path=/inscripccion/**    
+

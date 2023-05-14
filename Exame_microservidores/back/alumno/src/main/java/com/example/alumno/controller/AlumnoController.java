@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 // @CrossOrigin
 @RestController
-@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
-        RequestMethod.DELETE })
+// @CrossOrigin(origins = "*", methods = { RequestMethod.GET,
+// RequestMethod.POST, RequestMethod.PUT,
+// RequestMethod.DELETE })
 @RequestMapping("/alumno")
 public class AlumnoController {
     @Autowired
