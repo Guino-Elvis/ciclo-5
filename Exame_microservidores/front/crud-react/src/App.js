@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import Alumnos from "./pages/Alumnos";
 import Cursos from "./pages/Cursos";
 import Docentes from "./pages/Docentes";
+import Inscripccions from "./pages/Inscripccions";
  
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
             <Route exact path="/"  element={<Alumnos/>} />
             <Route path="/docentes"  element={<Docentes/>} />
             <Route path="/cursos"  element={<Cursos/>} />
+            <Route path="/inscripccion"  element={<Inscripccions/>} />
           </Routes>
         </div>
         <Footer />
