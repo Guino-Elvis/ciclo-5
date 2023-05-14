@@ -1,4 +1,5 @@
 import axios from "axios";
+import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import { useState, useEffect } from "react";
 import Button from "../components/Button";
@@ -24,19 +25,33 @@ const getCurrentItems = () => {
   const API_URL = "http://localhost:9090";
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [inscripccions, setInscripccions] = useState([]);
+  const [detalle, setDetalle] = useState([]);
   //fracmento de paginacion
   const totalPages = Math.ceil(inscripccions.length / itemsPerPage);
   const hasNextPage = () => {
   return currentPage < totalPages && inscripccions.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).length > 0;
 };
 // end fracmento de paginacion
+
+// agregar detalle editado 
+const [detalleEditado, setDetalleEditado] = useState({
+  nombre: "",
+  // monto: 0
+});
+// end agregar detalle editado 
+
+
   const [inscripccionEditado, setInscripccionEditado] = useState({
     id: null,
     serie: "",
     numero: "",
     descripcion: "",
     alumnoId: "",
-    detalle: "",
+    // detalle: "",
+    detalle: {
+      nombre: "",
+      // monto: 0
+    }
   });
 
   const getInscripccions = () => {
@@ -44,23 +59,38 @@ const getCurrentItems = () => {
       .get(`${API_URL}/inscripccion`)
       .then((response) => {
         // ordenar de manera decendente 
-        const sortedInscripccions = response.data.sort();
+        // const sortedInscripccions = response.data.sort();
+        const sortedInscripccions = response.data.sort((a, b) => b.id - a.id);
         setInscripccions(sortedInscripccions.reverse());
         // end ordenar de manera decendente 
         // handle success
          // Filtrar inscripccions por nombre
       const filtered = response.data.filter((inscripccion) => {
-        const nombreCompleto = `${inscripccion.serie} ${inscripccion.alumnoId}`;
+        const nombreCompleto = `${inscripccion.serie}${inscripccion.numero} ${inscripccion.descripcion}`;
         return nombreCompleto.toLowerCase().includes(searchTerm.toLowerCase());
       });
       setFilteredInscripccions(filtered);
         // setinscripccions(response.data);
-      })
+        
+           // Obtener detalles de inscripcciones
+           const promises = response.data.map((inscripccion) =>
+           axios.get(`${API_URL}/detalle?inscripccionId=${inscripccion.id}`)
+         );
+         Promise.all(promises)
+           .then((responses) => {
+             const detalle = responses.map((response) => response.data);
+             setDetalle(detalle);
+           })
+           .catch((error) => {
+             console.log(error);
+           });
+       })
       .catch((error) => {
         // handle error
         console.log(error);
       });
   }
+  // exportar exel
   const exportToExcel = (data) => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
@@ -68,7 +98,20 @@ const getCurrentItems = () => {
     const filename = 'inscripccions.xlsx';
     XLSX.writeFile(workbook, filename);
   }
+  //end exportar exel
 
+
+
+// Función auxiliar para convertir una cadena en un ArrayBuffer
+// function s2ab(s) {
+//   const buf = new ArrayBuffer(s.length);
+//   const view = new Uint8Array(buf);
+//   for (let i = 0; i < s.length; i++) {
+//     view[i] = s.charCodeAt(i) & 0xff;
+//   }
+//   return buf;
+// }
+    // ednd exportar exel
   const editarinscripccion = (id) => {
     const inscripccion = inscripccions.find((p) => p.id === id);
     setInscripccionEditado({
@@ -77,9 +120,18 @@ const getCurrentItems = () => {
       numero: inscripccion.numero,
       descripcion: inscripccion.descripcion,
       alumnoId: inscripccion.alumnoId,
-      detalle: inscripccion.detalle,
+      // detalle: inscripccion.detalle,
     });
-    setModalIsOpen(true)
+    axios
+    .get(`${API_URL}/detalle?inscripccionId=${id}`)
+    .then((response) => {
+      setDetalleEditado(response.data);
+      setModalIsOpen(true);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    // setModalIsOpen(true)
   }
 
   const crearInscripccion = (event) => {
@@ -96,7 +148,11 @@ const getCurrentItems = () => {
             numero: "",
             descripcion: "",
             alumnoId: "",
-            detalle: "",
+            // detalle: "",
+            detalle: {
+              nombre: "",
+              // monto: 0
+            }
         });
         getInscripccions();
         setModalIsOpen(false)
@@ -106,21 +162,57 @@ const getCurrentItems = () => {
       });
   }
 
+  // este codigo si funciona es de actualizar 
+  // const actualizarInscripccion = (event) => {
+  //   event.preventDefault();
+  //   axios
+  //     .put(`${API_URL}/inscripccion`, inscripccionEditado)
+  //     .then((response) => {
+  //       setInscripccionEditado({
+  //           id: null,
+  //           serie: "",
+  //           numero: "",
+  //           descripcion: "",
+  //           alumnoId: "",
+  //           // detalle: "",
+  //           detalle: {
+  //             nombre: "",
+  //             // monto: 0
+  //           }
+  //       });
+  //       getInscripccions();
+  //       setModalIsOpen(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+  // end este codigo si funciona es de actualizar 
   const actualizarInscripccion = (event) => {
     event.preventDefault();
     axios
       .put(`${API_URL}/inscripccion`, inscripccionEditado)
       .then((response) => {
-        setInscripccionEditado({
-            id: null,
-            serie: "",
-            numero: "",
-            descripcion: "",
-            alumnoId: "",
-            detalle: "",
-        });
-        getInscripccions();
-        setModalIsOpen(false);
+        axios
+          .put(`${API_URL}/detalle/${inscripccionEditado.id}`, detalleEditado)
+          .then((response) => {
+            setInscripccionEditado({
+              id: null,
+              serie: "",
+              numero: "",
+              descripcion: "",
+              alumnoId: "",
+            });
+            setDetalleEditado({
+              nombre: "",
+              // monto: 0
+            });
+            getInscripccions();
+            setModalIsOpen(false);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         console.log(error);
@@ -194,7 +286,7 @@ const getCurrentItems = () => {
           }
           className="editar-input"
         />
-        <Label className="label-name" title="Detalle:" />
+      <Label className="label-name" title="Detalle:" />
         <Input
           type="text"
           value={inscripccionEditado.detalle}
@@ -205,7 +297,7 @@ const getCurrentItems = () => {
             })
           }
           className="editar-input"
-        />
+        /> 
         {inscripccionEditado.id ? (
           <Button onClick={actualizarInscripccion} className="actualizar-btn" title="Actualizar" />
         ) : (
@@ -218,8 +310,8 @@ const getCurrentItems = () => {
   const currentItems = getCurrentItems();
   return (
     <div className="inscripccions-container">
-      <div className="inscripccions-title">Lista de inscripccions</div>
-      <div style={{ display: "flex", justifyContent: "end"}}>
+      <div className="inscripccions-title">Lista de inscripcion</div>
+      <div style={{ display: "flex", justifyContent: "end"}} className="">
                {/*  BUSCADOR */}
        <div className=" w-full pr-20">  
       <div className="m-2 ml-0  mt-4 flex">
@@ -254,26 +346,39 @@ const getCurrentItems = () => {
       <Modal className="modal" isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         {contenidoModal}
       </Modal>
-      <div className="encabezado-list">
-        <p className="encabezado-title" >id</p>
-        <p className="encabezado-title" >Serie</p>
-        <p className="encabezado-title" >Numero</p>
-        <p className="encabezado-title" >Descripccion</p>
-        <p className="encabezado-title" >Alumno ID</p>
-        <p className="encabezado-title" >Detalle ID</p>
-        <p className="encabezado-title" >Opciones</p>
+      <div className="encabezado-list ">
+        <p className="encabezado-title " >id</p>
+        <p className="encabezado-title col-span-1" >Serie</p>
+        <p className="encabezado-title col-span-1" >Numero</p>
+        <p className="encabezado-title col-span-1" >Descripccion</p>
+        <p className="encabezado-title col-span-1" >Alumno ID</p>
+        <p className="encabezado-title col-span-1" >Detalle DE inscripccion</p>
+        <p className="encabezado-title col-span-1 " >Opciones</p>
       </div>
-      <div className="container-List">
+      <div className="container-List ">
         {currentItems.map((inscripccion) => (
-          <div className="inscripccions-list" key={inscripccion.id}>
-            <h1 className="inscripccion-name">{inscripccion.id}</h1>
-            <h1 className="inscripccion-name">{inscripccion.serie}</h1>
-            <h1 className="inscripccion-name">{inscripccion.numero}</h1>
-            <h1 className="inscripccion-name">{inscripccion.descripcion}</h1>
-            <h1 className="inscripccion-name">{inscripccion.alumnoId}</h1>
-            <h1 className="inscripccion-name">{inscripccion.detalle.id}</h1>
-            <div className="container-buttonsEE">
-              <Button
+          <div className="inscripccions-list " key={inscripccion.id}>
+            <h1 className="inscripccion-name col-span-1">{inscripccion.id}</h1>
+            <h1 className="inscripccion-name col-span-1">{inscripccion.serie}</h1>
+            <h1 className="inscripccion-name col-span-1">{inscripccion.numero}</h1>
+            <h1 className="inscripccion-name col-span-1">{inscripccion.descripcion}</h1>
+            <h1 className="inscripccion-name col-span-1">{inscripccion.alumnoId}</h1>
+            <div>
+            {inscripccion.detalle.map((detalle) => (
+            <div className="col-span-1 row" key={detalle.id}>
+              {/* <p className="">Id: {detalle.id}</p> */}
+              <div className=" bg-green-500 m-1">
+              <p className=""> costo: {detalle.costo}  </p>
+              <p className=""> Curso ID: {detalle.cursoId}  </p>
+              </div>
+              {/* <p>Inscripción Id: {inscripccion.id}</p> */}
+              {/* <p>Profesor: {detalle.profesor}</p> */}
+            </div>
+          ))}
+          </div>
+            <div className="col-span-1 ">
+            <div className="container-buttonsEE ">
+            <Button
                 className="editar-btn "
                 onClick={() => editarinscripccion(inscripccion.id)}
                 title="EDITAR"
@@ -283,6 +388,8 @@ const getCurrentItems = () => {
                 onClick={() => eliminarInscripccion(inscripccion.id)}
                 title="ELIMINAR"
               />
+            </div>
+            
             </div>
           </div>
         ))}
